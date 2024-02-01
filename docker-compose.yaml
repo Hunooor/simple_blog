@@ -3,7 +3,7 @@ version: '1'
 services:
   backend:
     build: ./
-    container_name: nest_blogs_app
+    container_name: blogs_app
     environment:
       - PORT=3002
       - JWT_SECRET=123
