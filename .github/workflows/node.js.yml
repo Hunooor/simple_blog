@@ -31,6 +31,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker login -u hunooor01 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-            docker stop simple_blog || true
-            docker rm simple_blog || true
             docker run -p 3002:3002 -d simple_blog
