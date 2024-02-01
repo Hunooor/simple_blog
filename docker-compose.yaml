@@ -1,0 +1,30 @@
+version: '1'
+
+services:
+  backend:
+    build: ./
+    container_name: nest_blogs_app
+    environment:
+      - PORT=3002
+      - JWT_SECRET=123
+      - MONGO_URI=mongodb://blog_db:27017/blogs
+    ports:
+      - '3002:3002'
+    depends_on:
+      - database
+    networks:
+      - nestjs_network
+
+  database:
+    image: mongo
+    container_name: blog_db
+    ports:
+      - '27017:27'
+    volumes:
+      - './mongodb_backup:/data/db'
+    networks:
+      - nestjs_network
+
+networks:
+  nestjs_network:
+    driver: bridge
