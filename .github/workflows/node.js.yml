@@ -20,7 +20,7 @@ jobs:
       run: docker build -t simple_blogt .
 
     - name: Tag Docker image
-      run: docker tag simple_blog hunooor01/simple_blog
+      run: docker tag simple_blog hunooor01/simple_blog:latest
 
     - name: Push Docker image to DockerHub
       run: docker push hunooor01/simple_blog    
@@ -33,7 +33,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker login -u hunooor01 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker pull hunooor01/simple_blog 
+          docker pull hunooor01/simple_blog:latest
           docker stop simple_blog || true
           docker rm simple_blog || true
-          docker run -d --name simple_blog  -p 3002:3002 hunooor01/simple_blog
+          docker run -d --name simple_blog  -p 3002:3002 hunooor01/simple_blog:latest
