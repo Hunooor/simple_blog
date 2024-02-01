@@ -30,4 +30,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            docker stop simple_blog || true
+            docker rm simple_blog || true
             docker run -p 3002:3002 -d simple_blog
