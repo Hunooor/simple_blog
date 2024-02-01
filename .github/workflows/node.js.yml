@@ -25,7 +25,7 @@ jobs:
         with:
           registry: ${{ secrets.DOCKER_REGISTRY }}
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
-          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }
+          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
       - name: Build the docker image
         run: docker build -t simple_blog .
