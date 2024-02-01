@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull simple_blog hunooor01/task-simple_blog:latest
+            docker pull hunooor01/task-simple_blog:latest
             docker stop simple_blog || true
             docker rm simple_blog || true
             docker run -d --name simple_blog  -p 3002:3000 hunooor01/task-simple_blog:latest
