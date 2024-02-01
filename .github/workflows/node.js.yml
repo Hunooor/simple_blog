@@ -36,4 +36,4 @@ jobs:
           docker pull hunooor01/simple_blog:latest
           docker stop simple_blog || true
           docker rm simple_blog || true
-          docker run -d --name simple_blog  -p 3000:3002 hunooor01/simple_blog:latest
+          docker run -d --name simple_blog  -p 3001:3000 hunooor01/simple_blog:latest
