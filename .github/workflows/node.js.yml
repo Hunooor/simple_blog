@@ -17,7 +17,7 @@ jobs:
       run: docker login -u hunooor01 -p ${{ secrets.DOCKER_HUB_TOKEN }}
     
     - name: Build Docker image
-      run: docker build -t simple_blogt .
+      run: docker build -t simple_blog .
 
     - name: Tag Docker image
       run: docker tag simple_blog hunooor01/simple_blog:latest
