@@ -1,0 +1,35 @@
+name: Deploy on Push (SSH)
+
+on:
+  push:
+    branches:
+      - dev # Change this to your main branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Build the docker image
+        run: docker build -t simple_blog .
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker stop simple_blog || true
+            docker rm simple_blog || true
+            docker run -p 3002:3002 -d simple_blog
