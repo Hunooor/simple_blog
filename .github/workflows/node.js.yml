@@ -24,7 +24,7 @@ jobs:
         docker tag simple_blog ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
         docker push ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}
 
-    - name: Deploy with SSH
+    - name: SSH Deploy
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -32,11 +32,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
-          docker-compose -f docker-compose.yaml down
-          docker-compose -f docker-compose.yaml up -d
+          docker stop simple_blog || true
+          docker rm simple_blog || true
+          docker run -d --name simple_blog  -p 3002:3002 ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
 
-    # - name: Run docker compose
-    #   run: |
-    #       docker-compose -f docker-compose.yaml down
-    #       docker-compose -f docker-compose.yaml up -d
           
