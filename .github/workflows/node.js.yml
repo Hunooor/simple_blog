@@ -33,3 +33,8 @@ jobs:
           docker stop simple_blog || true
           docker rm simple_blog || true
           docker run -d --name simple_blog  -p 3002:3002 ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
+
+    - name: Run docker compose
+      run: |
+          docker-compose -f docker-compose.yaml down
+          docker-compose -f docker-compose.yaml up -d
