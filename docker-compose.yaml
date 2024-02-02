@@ -8,7 +8,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     environment:
-      DATABASE_URI: mongodb://database:27017
+      DATABASE_URI: mongodb://mongodb:27017
       DATABASE_NAME: blog_db
     ports:
       - '3002:3002'

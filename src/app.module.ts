@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb://database:27017",{
+    MongooseModule.forRoot("mongodb://mongodb:27017",{
         dbName: "blog_db"
      })
   ],
