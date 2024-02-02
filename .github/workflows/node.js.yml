@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Log in to Docker
+    - name: Docker login
       run: docker login -u ${{ secrets.GIT_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
     
     - name: Build Docker image
