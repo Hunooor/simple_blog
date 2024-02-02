@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "The simple blog app is working!"', () => {
-      expect(appController.getHello()).toBe('The simple blog app is working!');
+    it('should return "The simple blog app is working and connected to the database!"', () => {
+      expect(appController.getHello()).toBe('The simple blog app is working and connected to the database!');
     });
   });
 });
