@@ -9,7 +9,7 @@ services:
       context: ./
       dockerfile: dockerfile
     environment:
-      øDATABSE_URI: simple_blog_db://mongo:27017
+      øDATABSE_URI: simple_blog_db://mongo:27017/
     ports:
       - "3002:3002"
     depends_on:

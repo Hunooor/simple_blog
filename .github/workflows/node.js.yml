@@ -21,7 +21,7 @@ jobs:
 
     - name: Tag and push Docker image
       run: | 
-        docker tag simple_blog ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latestø
+        docker tag simple_blog ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
         docker push ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}
 
     - name: SSH Deploy
