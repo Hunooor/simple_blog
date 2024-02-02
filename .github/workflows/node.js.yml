@@ -32,8 +32,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
-          docker-compose down
-          docker-compose up -d
+          docker-compose -f docker-compose.yaml down
+          docker-compose -f docker-compose.yaml up -d
 
     # - name: Run docker compose
     #   run: |
