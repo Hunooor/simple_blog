@@ -5,9 +5,11 @@ services:
     image: node:18-alpine
     container_name: simple_blog
     working_dir: /app
-    volumes:
-      - .:/app
-    command: node dist/main
+    build:
+      context: ./
+      dockerfile: dockerfile
+    environment:
+      DATABSE_URI=simple_blog_db://mongo:27017
     ports:
       - "3002:3002"
     depends_on:
@@ -15,8 +17,6 @@ services:
 
   mongo:
     image: mongo:latest
-    container_name: mongo
-    environment:
-      MONGO_INITDB_DATABASE: simple_blog_db
+    container_name: simple_blog_db
     ports:
       - "27017:27017"

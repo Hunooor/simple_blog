@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("simple_blog_db://mongo:27017/")
+    MongooseModule.forRoot(process.env.DATABASE_URI)
   ],
   controllers: [AppController],
   providers: [AppService],
