@@ -14,16 +14,16 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Log in to Docker Hub
-      run: docker login -u hunooor01 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: docker login -u ${{ secrets.GIT_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
     
     - name: Build Docker image
       run: docker build -t simple_blog .
 
     - name: Tag Docker image
-      run: docker tag simple_blog hunooor01/simple_blog:latest
+      run: docker tag simple_blog ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
 
     - name: Push Docker image to DockerHub
-      run: docker push hunooor01/simple_blog    
+      run: docker push ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}    
 
     - name: SSH Deploy
       uses: appleboy/ssh-action@master
@@ -32,8 +32,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          docker login -u hunooor01 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker pull hunooor01/simple_blog:latest
+          docker pull ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
           docker stop simple_blog || true
           docker rm simple_blog || true
-          docker run -d --name simple_blog  -p 3002:3002 hunooor01/simple_blog:latest
+          docker run -d --name simple_blog  -p 3002:3002 ${{ secrets.DOCKER_HUB_REPOSITORY_NAME }}:latest
