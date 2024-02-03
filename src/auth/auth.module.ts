@@ -10,24 +10,24 @@ import { JwtStrategy } from './strategies/jwt-strategy';
 import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
 
 @Module({
-  imports:[
+  imports: [
     MongooseModule.forFeature([{
-        name: User.name,
-        schema: userSchema
+      name: User.name,
+      schema: userSchema
     }]),
     JwtModule.register({
       //secret: `${process.env.JWT_SECRET}`,
       secret: "verysecretkey56789",
-      signOptions: {expiresIn: "1000s"}
+      signOptions: { expiresIn: "1000s" }
     })
   ],
   providers: [
-    AuthService, 
-    LocalStrategy, 
-    UsersService, 
+    AuthService,
+    LocalStrategy,
+    UsersService,
     JwtStrategy,
     RefreshJwtStrategy
   ],
-  controllers: [AuthController]  
+  controllers: [AuthController]
 })
-export class AuthModule {}
+export class AuthModule { }

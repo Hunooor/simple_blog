@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Blog } from 'src/schemas/Blog.schema';
@@ -31,7 +31,7 @@ export class BlogsService {
 
             if (!blog) throw new NotFoundException("The blog not found");
 
-            return blog
+            return blog;
         } catch (error) {
             throw error;
         }
@@ -41,7 +41,7 @@ export class BlogsService {
     // create a new blog post using the request user
     async createBlog(request: any, data: CreateBlogDto) {
         try {
-            const user = await this.userService.findUserByUserName(request.user.username)
+            const user = await this.userService.findUserByUserName(request.user.username);
 
             const newBlog = new this.blogModel({
                 ...data, user: user.id

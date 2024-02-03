@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateBlogDto {
-    
+
     @IsOptional()
     @IsNotEmpty()
     @IsString()
@@ -11,5 +11,5 @@ export class CreateBlogDto {
     @IsNotEmpty()
     @IsString()
     content: string;
-    
+
 }

@@ -11,10 +11,10 @@ export class UsersService {
     // register a new user
     async createUser(createUserDto: CreateUserDto) {
         try {
-            const user = await this.userModel.findOne({ "username": createUserDto.username })
+            const user = await this.userModel.findOne({ "username": createUserDto.username });
 
             if (user) {
-                throw new BadRequestException('The username is already taken')
+                throw new BadRequestException('The username is already taken');
             }
 
             await new this.userModel(createUserDto).save();
@@ -23,7 +23,7 @@ export class UsersService {
         }
 
     }
-    
+
 
     // find user by id
     async findUserByUserName(username: string) {

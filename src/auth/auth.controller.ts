@@ -7,18 +7,18 @@ import { RefreshJwtGuard } from './guards/refresh-auth.guard';
 @Controller('auth')
 export class AuthController {
 
-    constructor(private authService: AuthService){}
+    constructor(private authService: AuthService) { }
 
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Body() credentials: AuthCredentialsDto){
-        return await this.authService.login(credentials)
+    async login(@Body() credentials: AuthCredentialsDto) {
+        return await this.authService.login(credentials);
     }
 
     @UseGuards(RefreshJwtGuard)
     @Post('refresh')
-    async refreshToken(@Request() req){
-        return this.authService.refreshToken(req.user)
+    async refreshToken(@Request() req) {
+        return this.authService.refreshToken(req.user);
     }
 
 }

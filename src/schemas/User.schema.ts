@@ -4,13 +4,13 @@ import { hash } from 'bcrypt'
 @Schema()
 export class User {
 
-    @Prop({required: true})
+    @Prop({ required: true })
     username: string;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     authorname: string;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     password: string;
 
 }

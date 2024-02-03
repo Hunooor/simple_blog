@@ -2,13 +2,13 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 import { User } from "./User.schema";
 
-@Schema({timestamps: true})
+@Schema({ timestamps: true })
 export class Blog {
 
-    @Prop({required: true})
+    @Prop({ required: true })
     title: string;
 
-    @Prop({required: true})
+    @Prop({ required: true })
     content: string;
 
     @Prop()
@@ -17,7 +17,7 @@ export class Blog {
     @Prop()
     updatedAt: Date
 
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: "User"})
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: "User" })
     user: User;
 
 }

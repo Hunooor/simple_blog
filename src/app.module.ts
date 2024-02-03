@@ -6,11 +6,10 @@ import { UsersModule } from './users/users.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true, envFilePath: '.env'}), // read the env variables
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }), // read the env variables
     MongooseModule.forRoot(`mongodb://${process.env.DB_HOST}:27017/`), // db connection
     UsersModule,
     BlogsModule,
@@ -19,4 +18,4 @@ import { UsersService } from './users/users.service';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
