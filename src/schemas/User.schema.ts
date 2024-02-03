@@ -5,12 +5,12 @@ import { hash } from 'bcrypt'
 export class User {
 
     @Prop({required: true})
-    userName: string;
+    username: string;
 
     @Prop({required: true})
-    authorName: string;
+    authorname: string;
 
-    @Prop({required: true, select: false})
+    @Prop({required: true})
     password: string;
 
 }

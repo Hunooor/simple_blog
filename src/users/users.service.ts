@@ -9,7 +9,7 @@ export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<User>){}
 
     async createUser(createUserDto: CreateUserDto) {
-        const user = await this.userModel.findOne({"userName": createUserDto.userName})
+        const user = await this.userModel.findOne({"username": createUserDto.username})
 
         if (user) {
             throw new HttpException('The username is already taken',  HttpStatus.UNPROCESSABLE_ENTITY)
@@ -18,7 +18,7 @@ export class UsersService {
         return await new this.userModel(createUserDto).save();      
     }
 
-    async findUserByUsername(userName: string) {
-        return await this.userModel.findOne({userName: userName});
+    async findUserByUserName(username: string) {
+        return await this.userModel.findOne({username: username});
     }
 }
