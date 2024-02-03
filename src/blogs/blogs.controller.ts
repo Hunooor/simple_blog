@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { CreateBlogDto } from './dto/CreateBlog.dto';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -18,6 +18,7 @@ export class BlogsController {
         }
     }
 
+    @UseGuards(JwtGuard)
     @Get(':id')
     async getBlog(@Param('id') id: string) {
         try {
@@ -33,11 +34,11 @@ export class BlogsController {
         }
     }
 
-    // @UseGuards(JwtGuard)
-    @Post(':user_id')
-    async createBlog(@Param('user_id') user_id, @Body() data: CreateBlogDto) {
+    @UseGuards(JwtGuard)
+    @Post()
+    async createBlog(@Request() req, @Body() data: CreateBlogDto) {
         try {
-            return await this.blogService.createBlog(user_id, data)
+            return await this.blogService.createBlog(req, data)
         } catch (error) {
             if (error instanceof BadRequestException) {
                 throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -47,13 +48,16 @@ export class BlogsController {
         }
     }
 
+    @UseGuards(JwtGuard)
     @Patch(':id')
-    async updateBlog(@Param('id') id: string, @Body() data: CreateBlogDto) {
+    async updateBlog(@Request() req, @Param('id') id: string, @Body() data: CreateBlogDto) {
         try {
-            return await this.blogService.updateBlog(id, data)
+            return await this.blogService.updateBlog(req, id, data)
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+            } else if (error instanceof ForbiddenException) {
+                throw new HttpException(error.message, HttpStatus.FORBIDDEN);
             } else if (error instanceof BadRequestException) {
                 throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
             } else {
@@ -62,13 +66,16 @@ export class BlogsController {
         }
     }
 
+    @UseGuards(JwtGuard)
     @Delete(':id')
-    async deleteBlog(@Param('id') id: string) {        
+    async deleteBlog(@Request() req, @Param('id') id: string) {
         try {
-            await this.blogService.deleteBlog(id)
+            await this.blogService.deleteBlog(req, id)
         } catch (error) {
             if (error instanceof NotFoundException) {
                 throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+            } else if (error instanceof ForbiddenException) {
+                throw new HttpException(error.message, HttpStatus.FORBIDDEN);
             } else {
                 throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
             }

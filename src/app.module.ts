@@ -10,7 +10,7 @@ import { UsersService } from './users/users.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({envFilePath: '.env', isGlobal: true}), // read the env variables
+    ConfigModule.forRoot({isGlobal: true, envFilePath: '.env'}), // read the env variables
     MongooseModule.forRoot(`mongodb://${process.env.DB_HOST}:27017/`), // db connection
     UsersModule,
     BlogsModule,

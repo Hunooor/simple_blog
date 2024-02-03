@@ -15,8 +15,9 @@ import { JwtStrategy } from './strategies/jwt-strategy';
         schema: userSchema
     }]),
     JwtModule.register({
-      secret: `${process.env.JWT_SECRET}`,
-      signOptions: {expiresIn: '3600s'}
+      //secret: `${process.env.JWT_SECRET}`,
+      secret: "verysecretkey56789",
+      signOptions: {expiresIn: "3600s"}
     })
   ],
   providers: [

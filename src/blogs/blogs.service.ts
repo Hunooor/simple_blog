@@ -1,13 +1,15 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Blog } from 'src/schemas/Blog.schema';
 import { CreateBlogDto } from './dto/CreateBlog.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class BlogsService {
     constructor(
-        @InjectModel(Blog.name) private blogModel: Model<Blog>
+        @InjectModel(Blog.name) private blogModel: Model<Blog>,
+        private userService: UsersService
     ) { }
 
     // return all blog post
@@ -37,10 +39,12 @@ export class BlogsService {
     }
 
     // create a new blog post using the request user
-    async createBlog(user_id: string, data: CreateBlogDto) {
+    async createBlog(request: any, data: CreateBlogDto) {
         try {
+            const user = await this.userService.findUserByUserName(request.user.username)
+
             const newBlog = new this.blogModel({
-                ...data, user: user_id
+                ...data, user: user.id
             });
 
             await newBlog.save();
@@ -53,14 +57,15 @@ export class BlogsService {
     }
 
     // update az existing blog post using the request user
-    async updateBlog(id: string, data: CreateBlogDto) {
+    async updateBlog(request: any, id: string, data: CreateBlogDto) {
         try {
             if (!mongoose.Types.ObjectId.isValid(id))
                 throw new BadRequestException("Invalid _id value");
 
+            await this.checkUserPermissionToModifyBlog(request.user.username, id);
+
             const updatedBlog = await this.blogModel.findByIdAndUpdate(id, data);
 
-            if (!updatedBlog) throw new NotFoundException("The blog not found");
             return await this.getBlog(updatedBlog.id);
         } catch (error) {
             throw error;
@@ -69,10 +74,12 @@ export class BlogsService {
     }
 
     // delete a blog post if exists
-    async deleteBlog(id: string) {
+    async deleteBlog(request: any, id: string) {
         try {
             if (!mongoose.Types.ObjectId.isValid(id))
                 throw new BadRequestException("Invalid _id value");
+
+            await this.checkUserPermissionToModifyBlog(request.user.username, id);
 
             const result = await this.blogModel.findByIdAndDelete(id);
 
@@ -81,6 +88,12 @@ export class BlogsService {
         } catch (error) {
             throw error;
         }
+    }
+
+    async checkUserPermissionToModifyBlog(username, blog_id) {
+        const blog = await (await this.blogModel.findById(blog_id)).populate('user');
+        if (!blog) throw new NotFoundException("The blog not found");
+        if (blog.user.username !== username) throw new ForbiddenException("No permission to modify this blog");
     }
 
 }
