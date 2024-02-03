@@ -7,6 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, userSchema } from 'src/schemas/User.schema';
 import { JwtStrategy } from './strategies/jwt-strategy';
+import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
 
 @Module({
   imports:[
@@ -17,14 +18,15 @@ import { JwtStrategy } from './strategies/jwt-strategy';
     JwtModule.register({
       //secret: `${process.env.JWT_SECRET}`,
       secret: "verysecretkey56789",
-      signOptions: {expiresIn: "3600s"}
+      signOptions: {expiresIn: "1000s"}
     })
   ],
   providers: [
     AuthService, 
     LocalStrategy, 
     UsersService, 
-    JwtStrategy
+    JwtStrategy,
+    RefreshJwtStrategy
   ],
   controllers: [AuthController]  
 })
