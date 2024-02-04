@@ -93,6 +93,7 @@ export class BlogsService {
     async checkUserPermissionToModifyBlog(username: string, blog_id: string) {
         const blog = await this.blogModel.findById(blog_id).populate('user');
         if (!blog) throw new NotFoundException("The blog not found");
+        
         if (blog.user.username !== username) throw new ForbiddenException("No permission to modify this blog");
     }
 
