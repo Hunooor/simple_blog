@@ -8,16 +8,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, userSchema } from 'src/schemas/User.schema';
 import { JwtStrategy } from './strategies/jwt-strategy';
 import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([{
       name: User.name,
       schema: userSchema
     }]),
     JwtModule.register({
-      //secret: `${process.env.JWT_SECRET}`,
-      secret: "verysecretkey56789",
+      secret: `${process.env.JWT_SECRET}`,
       signOptions: { expiresIn: "1000s" }
     })
   ],
